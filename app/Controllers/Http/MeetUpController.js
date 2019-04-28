@@ -7,6 +7,11 @@
 /**
  * Resourceful controller for interacting with meetups
  */
+
+
+const Database = use('Database')
+const Meetup = use('App/Models/Meetup')
+const User = use('App/Models/User')
 class MeetUpController {
   /**
    * Show a list of all meetups.
@@ -17,7 +22,10 @@ class MeetUpController {
    * @param {Response} ctx.response
    * @param {View} ctx.view
    */
-  async index ({ request, response, view }) {
+  async index ({ request }) {
+    const meetups = await Meetup.all()
+
+    return meetups
   }
 
   /**
@@ -40,7 +48,19 @@ class MeetUpController {
    * @param {Request} ctx.request
    * @param {Response} ctx.response
    */
-  async store ({ request, response }) {
+  async store ({ request, auth }) {
+    const data = request.only([
+      'title',
+      'description'
+    ])
+
+    const meetup = await Meetup.create(
+      {
+        ...data,
+        user_id: auth.user.id,
+      }
+    )
+    return meetup
   }
 
   /**
