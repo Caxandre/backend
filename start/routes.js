@@ -19,7 +19,11 @@ const Route = use('Route')
 Route.post('users', 'UserController.store')
 Route.post('sessions', 'SessionController.store')
 
+Route.get('files/:id', 'FileController.show')
+
 Route.group(() => {
+  Route.post('files', 'FileController.store')
+  Route.delete('files/:id', 'FileController.destroy')
   Route.post('meetups', 'MeetupController.store')
   Route.get('meetups', 'MeetupController.index')
 }).middleware(['auth'])

@@ -3,9 +3,9 @@
 /** @type {import('@adonisjs/lucid/src/Schema')} */
 const Schema = use('Schema')
 
-class MeetUpSchema extends Schema {
+class MeetupSchema extends Schema {
   up () {
-    this.create('meet_ups', (table) => {
+    this.create('meetups', (table) => {
       table.increments()
       table
       .integer('user_id')
@@ -14,15 +14,24 @@ class MeetUpSchema extends Schema {
       .inTable('users')
       .onUpdate('CASCADE')
       .onDelete('SET NULL')
+      table
+        .integer('file_id')
+        .unsigned()
+        .references('id')
+        .inTable('files')
+        .onUpdate('CASCADE')
+        .onDelete('SET NULL')
       table.string('title').notNullable()
       table.text('description').notNullable()
+      table.string('place').notNullable()
+      table.timestamp('date_event').notNullable()
       table.timestamps()
     })
   }
 
   down () {
-    this.drop('meet_ups')
+    this.drop('meetups')
   }
 }
 
-module.exports = MeetUpSchema
+module.exports = MeetupSchema

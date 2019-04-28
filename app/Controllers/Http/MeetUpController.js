@@ -29,18 +29,6 @@ class MeetUpController {
   }
 
   /**
-   * Render a form to be used for creating a new meetup.
-   * GET meetups/create
-   *
-   * @param {object} ctx
-   * @param {Request} ctx.request
-   * @param {Response} ctx.response
-   * @param {View} ctx.view
-   */
-  async create ({ request, response, view }) {
-  }
-
-  /**
    * Create/save a new meetup.
    * POST meetups
    *
@@ -51,7 +39,10 @@ class MeetUpController {
   async store ({ request, auth }) {
     const data = request.only([
       'title',
-      'description'
+      'description',
+      'place',
+      'date_event',
+      'file_id'
     ])
 
     const meetup = await Meetup.create(
